@@ -1,0 +1,267 @@
+{
+  "name": "Basketball Academy Chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/basketball-chatbot",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -640,
+        -416
+      ],
+      "id": "0bddbed6-1496-4519-9ace-b8d6008cad5e",
+      "name": "Webhook",
+      "webhookId": "9482d277-bdfc-44ae-9224-63abc9103e49",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"reply\": \"{{$json['candidates'][0]['content']['parts'][0]['text'].replace(/\\n/g,'<br>')}}\"\n}\n",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json; charset=utf-8"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        624,
+        -416
+      ],
+      "id": "c24f50b9-bee7-478a-9560-a7ac07e1ce17",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=REMOVED",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        -416
+      ],
+      "id": "5cbfff16-f0c9-46c5-b8cc-5aed6f525653",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// JavaScript Code Node\nconst userMessage = $json.message || $json.body.message;\nconst sessionId = $json.sessionId || $json.body.sessionId || 'default';\nconst timestamp = new Date().toISOString();\n\nreturn {\n  userMessage,\n  sessionId, \n  timestamp,\n  originalInput: $json\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -432,
+        -416
+      ],
+      "id": "81610683-c056-472e-b14e-cf0313640bf8",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1T153hGZceVrH3URx70Xz4Dieu4J1ro05iB33DJgvdbc/edit?usp=sharing",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Teams",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1T153hGZceVrH3URx70Xz4Dieu4J1ro05iB33DJgvdbc/edit#gid=0"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange"
+            }
+          },
+          "outputFormatting": {
+            "values": {
+              "general": "FORMATTED_VALUE",
+              "date": "FORMATTED_STRING"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -224,
+        -416
+      ],
+      "id": "39b7c519-a512-4523-a2d2-28c88ecefdaa",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleApi": {
+          "id": "AW3XrmKCOB3CGRRv",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        -416
+      ],
+      "id": "137b7ec8-d33d-482b-b97d-f97fb07d24a8",
+      "name": "Wait",
+      "webhookId": "d2d94eeb-17fe-488c-960d-f86b074ee3c8"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect all rows from the Google Sheets node\nconst rows = $('Wait').all().map(row => {\n  return `Ομάδα: ${row.json['Κατηγορία Ομάδας']}, Έτος: ${row.json['Έτος Γέννησης']}, Προπονητής: ${row.json['Όνομα Προπονητή']}, Τηλέφωνο: ${row.json['Τηλέφωνο Προπονητή']}, Πρόγραμμα: ${row.json['Πρόγραμμα Προπονήσεων']}, Εγγραφές Ανοιχτές: ${row.json['Εγγραφές Ανοιχτές']}, Πληρωμή: ${row.json['Κατηγορία με πληρωμή']}`;\n});\n\n// Build the prompt string\nconst promptText =\n  \"Είσαι βοηθός μιας ακαδημίας καλαθοσφαίρισης στην Ελλάδα. Απαντάς ΜΟΝΟ στα ελληνικά.\\n\\n\" +\n  \"ΔΙΑΘΕΣΙΜΑ ΔΕΔΟΜΕΝΑ ΟΜΑΔΩΝ:\\n\" +\n  rows.join(\"\\n\") +\n  \"\\n\\nΟΔΗΓΙΕΣ:\\n- Απάντησε φιλικά και επαγγελματικά\\n- Για εγγραφές πες: 'Επικοινωνήστε στο τηλέφωνο του προπονητή'\\n- Για πληρωμές πες: 'Επικοινωνήστε με την γραμματεία'\\n\\n\" +\n  \"Ερώτηση: \" + $('Code').first().json.userMessage;;\n\n// Return the JSON object Gemini expects\nreturn [\n  {\n    json: {\n      body: {\n        contents: [\n          {\n            parts: [\n              { text: promptText } \n            ]\n          }\n        ]\n      }\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        -416
+      ],
+      "id": "3831cbca-9a14-4af5-8604-fbc819522aba",
+      "name": "Code2"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "localhost:5678",
+            "user-agent": "curl/8.15.0",
+            "accept": "*/*",
+            "content-type": "application/json",
+            "content-length": "118"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "message": "Hi, when do the baby category has practice? please answer in greek",
+            "sessionId": "user-123"
+          },
+          "webhookUrl": "http://localhost:5678/webhook/basketball-chatbot",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6940062a-148c-4c3d-81dd-61a908e2efd0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "abc43258817a8e4687a491d416e54cbeb89798bccf03985a223c9ad8f6b8f1bc"
+  },
+  "id": "iOq55ipPqPIZyn3z",
+  "tags": []
+}
