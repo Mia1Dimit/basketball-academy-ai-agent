@@ -11,8 +11,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -640,
-        -416
+        -816,
+        -544
       ],
       "id": "0bddbed6-1496-4519-9ace-b8d6008cad5e",
       "name": "Webhook",
@@ -22,7 +22,7 @@
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={\n  \"reply\": \"{{$json['candidates'][0]['content']['parts'][0]['text'].replace(/\\n/g,'<br>')}}\"\n}\n",
+        "responseBody": "={\n  \"reply\": {{JSON.stringify($json.reply)}}\n}\n\n",
         "options": {
           "responseCode": 200,
           "responseHeaders": {
@@ -38,8 +38,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        624,
-        -416
+        640,
+        -544
       ],
       "id": "c24f50b9-bee7-478a-9560-a7ac07e1ce17",
       "name": "Respond to Webhook"
@@ -47,7 +47,18 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key={{$credentials.googleApiKey}}",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "=={{$credentials.googleApiKey}}"
+            }
+          ]
+        },
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -65,11 +76,17 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        400,
-        -416
+        224,
+        -544
       ],
       "id": "5cbfff16-f0c9-46c5-b8cc-5aed6f525653",
-      "name": "HTTP Request"
+      "name": "HTTP Request",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "xGOBnY6r9LSeLU02",
+          "name": "googleApiKey"
+        }
+      }
     },
     {
       "parameters": {
@@ -79,8 +96,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -432,
-        -416
+        -608,
+        -544
       ],
       "id": "81610683-c056-472e-b14e-cf0313640bf8",
       "name": "Code"
@@ -117,8 +134,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -224,
-        -416
+        -400,
+        -544
       ],
       "id": "39b7c519-a512-4523-a2d2-28c88ecefdaa",
       "name": "Google Sheets",
@@ -136,8 +153,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -16,
-        -416
+        -192,
+        -544
       ],
       "id": "137b7ec8-d33d-482b-b97d-f97fb07d24a8",
       "name": "Wait",
@@ -150,11 +167,24 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        192,
-        -416
+        16,
+        -544
       ],
       "id": "3831cbca-9a14-4af5-8604-fbc819522aba",
       "name": "Code2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code node in n8n (JavaScript)\n\nconst response = items[0].json;\n\n// Extract the chatbot reply text\nconst text = response.candidates[0].content.parts[0].text;\n\n// Return a new item with the reply field\nreturn [\n  {\n    json: {\n      reply: text\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        432,
+        -544
+      ],
+      "id": "281e5aeb-d50a-4597-a5ef-0b639ecfc887",
+      "name": "Set"
     }
   ],
   "pinData": {
@@ -201,7 +231,7 @@
       "main": [
         [
           {
-            "node": "Respond to Webhook",
+            "node": "Set",
             "type": "main",
             "index": 0
           }
@@ -251,13 +281,24 @@
           }
         ]
       ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "6940062a-148c-4c3d-81dd-61a908e2efd0",
+  "versionId": "4d69717f-d0d2-4466-9241-d927b8fa2ed7",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "abc43258817a8e4687a491d416e54cbeb89798bccf03985a223c9ad8f6b8f1bc"
