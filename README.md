@@ -9,18 +9,6 @@ This project combines a beautiful, modern React frontend with an AI-powered chat
 
 ---
 
-
-<p align="center">
-  <img src="frontend/public/uploads/4914541a-4242-4f24-a8c0-b5d1fda28bc5.png" alt="Αρκαδικός BC Logo" width="120" />
-</p>
-
-# Αρκαδικός BC Basketball Academy AI Agent
-
-Welcome to the official web platform for the Αρκαδικός BC Basketball Academy!  
-This project combines a beautiful, modern React frontend with an AI-powered chatbot and dynamic team/program information.
-
----
-
 ## 🚀 Project Overview
 
 - **Modern, mobile-friendly website** for the Αρκαδικός BC Basketball Academy.
@@ -34,7 +22,6 @@ This project combines a beautiful, modern React frontend with an AI-powered chat
 ## ✨ Screenshots
 
 <p align="center">
-  <img src="frontend/src/assets/basketball-hero.jpg" alt="Hero Section" width="400" />
   <img src="frontend/src/assets/website.png" alt="Website Screenshot 1" width="400" />
   <img src="frontend/src/assets/website-2.png" alt="Website Screenshot 2" width="400" />
   <img src="frontend/src/assets/website-3.png" alt="Website Screenshot 3" width="400" />
