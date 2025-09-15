@@ -15,7 +15,7 @@ const HeroSection = () => {
       {/* Logo positioned top left */}
       <div className="absolute top-8 left-8 z-10">
         <img 
-          src="/lovable-uploads/4914541a-4242-4f24-a8c0-b5d1fda28bc5.png" 
+          src="/uploads/4914541a-4242-4f24-a8c0-b5d1fda28bc5.png" 
           alt="Αρκαδικός BC Logo" 
           className="h-20 w-auto drop-shadow-lg"
         />
