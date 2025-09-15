@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { MessageCircle, Send, X, Minimize2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sendMessage } from "@/lib/utils";
+import ReactMarkdown from "react-markdown";
 
 const ChatbotWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,7 +103,11 @@ const ChatbotWidget = () => {
                         : "bg-white text-gray-800 border border-gray-200 rounded-bl-none"
                     }`}
                   >
-                    {msg.content}
+                    <ReactMarkdown>
+                      {typeof msg.content === "string"
+                        ? msg.content.replace(/\\n/g, "\n")
+                        : ""}
+                    </ReactMarkdown>
                   </div>
                 </div>
               ))}
