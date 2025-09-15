@@ -1,75 +1,140 @@
-# Welcome to your Lovable project
+<p align="center">
+  <img src="frontend/public/uploads/4914541a-4242-4f24-a8c0-b5d1fda28bc5.png" alt="Αρκαδικός BC Logo" width="120" />
+</p>
 
-## Project info
+# Αρκαδικός BC Basketball Academy AI Agent
 
-**URL**: https://lovable.dev/projects/321c79f5-56e0-41f4-9746-52741551c3e9
+Welcome to the official web platform for the Αρκαδικός BC Basketball Academy!  
+This project combines a beautiful, modern React frontend with an AI-powered chatbot and dynamic team/program information.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
 
-**Use Lovable**
+<p align="center">
+  <img src="frontend/public/uploads/4914541a-4242-4f24-a8c0-b5d1fda28bc5.png" alt="Αρκαδικός BC Logo" width="120" />
+</p>
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/321c79f5-56e0-41f4-9746-52741551c3e9) and start prompting.
+# Αρκαδικός BC Basketball Academy AI Agent
 
-Changes made via Lovable will be committed automatically to this repo.
+Welcome to the official web platform for the Αρκαδικός BC Basketball Academy!  
+This project combines a beautiful, modern React frontend with an AI-powered chatbot and dynamic team/program information.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🚀 Project Overview
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- **Modern, mobile-friendly website** for the Αρκαδικός BC Basketball Academy.
+- **AI Chatbot**: Instantly answers questions about teams, schedules, and more, powered by n8n and Gemini.
+- **Dynamic team/program display** and contact form.
+- **Professional design** using Tailwind CSS, shadcn-ui, and custom branding.
 
-Follow these steps:
+---
+
+
+## ✨ Screenshots
+
+<p align="center">
+  <img src="frontend/src/assets/basketball-hero.jpg" alt="Hero Section" width="400" />
+  <img src="frontend/src/assets/website.png" alt="Website Screenshot 1" width="400" />
+  <img src="frontend/src/assets/website-2.png" alt="Website Screenshot 2" width="400" />
+  <img src="frontend/src/assets/website-3.png" alt="Website Screenshot 3" width="400" />
+  <img src="frontend/src/assets/n8n-workflow.png" alt="n8n Workflow" width="400" />
+</p>
+
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS, shadcn-ui
+- **AI Chatbot Backend**: n8n workflow (integrated with Gemini API and Google Sheets)
+- **Other**: React Markdown, Lucide Icons
+
+---
+
+## 📦 Features
+
+- 🏀 Hero section with club branding and call-to-action
+- 👥 Dynamic teams/programs section
+- 📬 Contact form and contact info
+- 🤖 AI Chatbot (ask about schedules, teams, registration, etc.)
+- 📱 Responsive and mobile-friendly
+
+---
+
+## ⚡ Quick Start
+
+### 1. Clone the repository
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone https://github.com/Mia1Dimit/basketball-academy-ai-agent.git
+cd basketball-academy-ai-agent
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 2. Install dependencies
 
-# Step 3: Install the necessary dependencies.
-npm i
+```sh
+cd frontend
+npm install
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### 3. Start the development server
+
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### 4. Start the n8n workflow
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Open n8n (locally or in the cloud)
+- Import the workflow from `n8n-workflow/Basketball Academy Chatbot.json`
+- Make sure your Google Sheets and Gemini API credentials are set up in n8n
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🔗 Project Structure
 
-## What technologies are used for this project?
+```
+frontend/
+  src/
+    components/
+    pages/
+    assets/
+  public/
+n8n-workflow/
+  Basketball Academy Chatbot.json
+docs/
+  Setup.md
+```
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🧑‍💻 Local Setup & Configuration
 
-## How can I deploy this project?
+See [docs/Setup.md](docs/Setup.md) for a full step-by-step guide, including environment variables, API keys, and n8n setup.
 
-Simply open [Lovable](https://lovable.dev/projects/321c79f5-56e0-41f4-9746-52741551c3e9) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+## 💡 Future Improvements
 
-Yes, you can!
+- User authentication for parents/players
+- Admin dashboard for managing teams and schedules
+- More advanced AI chatbot features (e.g., registration, reminders)
+- Multilingual support
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📸 Credits
 
-# basketball-academy-ai-agent
+- Αρκαδικός BC branding and logo
+- Basketball hero image (licensed/owned by club)
+
+---
+
+## 📞 Contact
+
+- Email: info@arkadikosbc.gr
+- Phone: 2710 123456
+
+---
+
+# 🏀 Αρκαδικός BC – Το μπάσκετ είναι χαρά, ο Αρκαδικός είναι οικογένεια!
